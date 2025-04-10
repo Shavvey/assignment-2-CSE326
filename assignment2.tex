@@ -75,87 +75,28 @@
 
  The composite pattern would be an ideal design pattern to choose for this problem.
  This design pattern is good when you want to represent part-whole hierarchies--components
- that are composed of simpler items.
+ that are composed of simpler items. Line objects could be the leaf or node while
+ larger shapes make up the composite.
  \end{enumerate}
-\pagebreak 
+\pagebreak
 \section*{Stack Implementation}
-Here's the implementation of the stack:
-\begin{lstlisting}[language=java]
-    public class StackImpl1 implements Stack {
-        private int[] stack;
-        private int pointer = 0;
-        private int capacity;
-        // create a new stack with an initial capacity
-        public StackImpl1(int capacity) {
-            this.capacity = capacity;
-            stack = new int[capacity];
-        }
-        @Override
-        public void push(int i) {
-            if(isFull()) {
-                grow(5); // grow stack by 5 if it's already full
-            }
-            stack[pointer] = i;
-            pointer++;
-        }
-    
-        @Override
-        public int pop() {
-            if (isEmpty()) {
-                throw new RuntimeException("[ERROR]: Stack is empty! Cannot pop an element!");
-            }
-            int val = stack[pointer-1];
-            // rewind pointer
-            pointer--;
-            return val;
-        }
-    
-        @Override
-        public int top() {
-            return stack[pointer-1];
-        }
-    
-        @Override
-        public boolean isEmpty() {
-            return pointer == 0;
-        }
-    
-        public boolean isFull() {
-            return pointer == capacity;
-        }
-    
-        void print() {
-            StringBuilder s = new StringBuilder();
-            s.append("{ ");
-            int i = 0;
-            for(; i < pointer - 1; i++) {
-                int val = stack[i];
-                // collect values except last, append comma and space
-                s.append(val).append(", ");
-            }
-            // get last value, append with ending curly brace instead
-            int val = stack[i];
-            s.append(val).append(" }");
-            System.out.println(s);
-        }
-        // grow the stack by a given amount
-        public void grow(int amount) {
-            int[] stack = new int[capacity + amount];
-            // copy old elements to new larger stack
-            System.arraycopy(this.stack, 0, 
-                            stack, 0, this.stack.length);
-            this.stack = stack;
-            this.capacity += amount;
-        }
-    } 
-\end{lstlisting}
 The stack implementation just has two parts: an array and a pointer to the next
 unoccupied address inside the array. To push, just use the pointer to assign a new
 element and increment the pointer. To pop, get the value that is pointed to,
 decrement the pointer, and return the value. We need some additional helper functions
 not described in the interface, like \texttt{grow()} and \texttt{isFull()} to help 
 us grow the stack when needed.
+\begin{figure}[H]
+   \includegraphics[width=10cm]{diagrams/StackImp.png}
+\end{figure}
 \section*{Decorator Pattern}
-
+To make the decorators, I implemented an abstract class called \texttt{StackDecorator}.
+The abstract class just holds a reference to the decorated stack, called \texttt{decoratedStack}.
+Two concrete decorators, \texttt{StackDecorator1} and \texttt{StackDecorator2},
+subclass the abstract decorator. Both the classes will call their specified behavior
+and then just delegate the task of the task to \texttt{decoratedStack}.
+\begin{figure}[H]
+   \includegraphics[width=10cm]{diagrams/StackDecorator.png}
+\end{figure}
 \end{document}  
 
