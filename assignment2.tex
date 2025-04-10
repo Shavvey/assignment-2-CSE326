@@ -112,7 +112,7 @@ Here's the implementation of the stack:
     
         @Override
         public int top() {
-            return stack[pointer];
+            return stack[pointer-1];
         }
     
         @Override
@@ -156,5 +156,6 @@ decrement the pointer, and return the value. We need some additional helper func
 not described in the interface, like \texttt{grow()} and \texttt{isFull()} to help 
 us grow the stack when needed.
 \section*{Decorator Pattern}
+
 \end{document}  
 
